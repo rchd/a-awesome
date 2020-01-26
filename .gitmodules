@@ -1,0 +1,10 @@
+[submodule "lain"]
+	path = lain
+	url = git://github.com/lcpz/lain.git
+
+[submodule "freedesktop"]
+	path = freedesktop
+	url = git://github.com/lcpz/awesome-freedesktop.git
+[submodule "foggy"]
+	path = foggy
+	url = https://gitlab.com/k3rni/foggy
