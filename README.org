@@ -4,10 +4,27 @@
 #+CATEGORY: Uncategorized, Hello
 #+TAGS:
 #+DESCRIPTION:
-#+TITLE: Hello, Buffer
+#+TITLE: Awesome WM Config
 
 * Awesome WM
+  [[file:screenshot/YdopDk.png]]
+  
 * 说明
+  | 相关软件   | 说明                                |
+  | rofi       | 扇动菜单，类似于windows下的开始菜单 |
+  | compton    | 该软件是控制窗口透明度              |
+  | conky      | 使用gui的方法监控计算机             |
+  | mpd        | 音乐播放软件                        |
+  | goldendict | 字典软件，支持多种字典              |
+  | fcitx      | 输入法                              |
+  | konsole    | 终端程序                            |
+  | srclocker  | 锁屏程序                            |
+  |            |                                     |
+
 * 快捷键
-
-
+  | 按键    | 功能           |
+  | Super+h | 向左边窗口切换 |
+  | Super+j | 向上边窗口切换 |
+  | Super+k | 向下边窗口切换 |
+  | Super+l | 向右边窗口切换 |
+  |         |                |
