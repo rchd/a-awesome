@@ -6,7 +6,7 @@
 #+DESCRIPTION:
 #+TITLE: Awesome WM Config
 
-* Awesome WM
+* Awesome WM截图
   [[file:screenshot/YdopDk.png]]
   
 * 说明
@@ -22,9 +22,20 @@
   |            |                                     |
 
 * 快捷键
-  | 按键    | 功能           |
-  | Super+h | 向左边窗口切换 |
-  | Super+j | 向上边窗口切换 |
-  | Super+k | 向下边窗口切换 |
-  | Super+l | 向右边窗口切换 |
-  |         |                |
+  | 按键          | 功能             |
+  | Super+h       | 向左边窗口切换   |
+  | Super+j       | 向上边窗口切换   |
+  | Super+k       | 向下边窗口切换   |
+  | Super+l       | 向右边窗口切换   |
+  | Super+1       | 切换到tag1       |
+  | Super+2       | 切换到tag2       |
+  | Super+3       | 切换到tag3       |
+  | Super+4       | 切换到tag4       |
+  | Super+5       | 切换到tag5       |
+  | Super+6       | 切换到tag6       |
+  | Super+7       | 切换到tag7       |
+  | Super+8       | 切换到tag8       |
+  | Super+Space   | 切换窗口布局     |
+  | Shift+Super+c | 关闭当前窗口     |
+  | Super+Tab     | 切换到上一个窗口 |
+  |               |                  |

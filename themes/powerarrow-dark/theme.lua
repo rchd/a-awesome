@@ -327,8 +327,12 @@ awful.util.tasklist_buttons,
 })
 
 -- Create the wibox
-s.mywibox = awful.wibar({ position = "top", screen = s, height = 25,
-bg = theme.bg_normal,opacity=0.75, fg = theme.fg_normal})
+s.mywibox = awful.wibar({ 
+	position = "top", 
+	screen = s, height = 25,
+	bg = theme.bg_normal,
+	opacity=0.75, fg = theme.fg_normal
+})
 
 -- Add widgets to the wibox
 s.mywibox:setup {
