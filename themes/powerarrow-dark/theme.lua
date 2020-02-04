@@ -263,8 +263,8 @@ local net = lain.widget.net({
 })
 
 --Lanucher
-local mylauncher=awful.widget.button({image=theme.awesome_icon_launcher})
-mylauncher:connect_signal("button::press",function () awful.util.mymainmenu:toggle() end)
+--local mylauncher=awful.widget.button({image=theme.awesome_icon_launcher})
+--mylauncher:connect_signal("button::press",function () awful.util.mymainmenu:toggle() end)
 
 -- Separators
 local spr     = wibox.widget.textbox(' ')
@@ -346,7 +346,7 @@ function theme.at_screen_connect(s)
 		--spr,
 		s.mytaglist,
 		spr,
-		mylauncher,
+		--mylauncher,
 		spr,
 		s.mypromptbox,
 		spr,

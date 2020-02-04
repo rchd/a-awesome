@@ -20,8 +20,10 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
 require("awful.hotkeys_popup.keys")
 local my_table      = awful.util.table or gears.table -- 4.{0,1} compatibility
 
-local cyclefocus=require('cyclefocus')
+--local cyclefocus=require('cyclefocus')
 local foggy=require('foggy')
+local revelation=require("revelation")
+revelation.init()
 
 --local poppin=require('poppin')
 -- }}}
@@ -252,6 +254,8 @@ awful.key({ modkey,           }, "Right",  awful.tag.viewnext,
 {description = "view next", group = "tag"}),
 awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
 {description = "go back", group = "tag"}),
+awful.key({ modkey,           }, "e",      revelation,
+{description="switch window quickly",group="tag"}),
 
 -- Non-empty tag browsing
 --awful.key({ altkey }, "Left", function () lain.util.tag_view_nonempty(-1) end,
@@ -795,20 +799,20 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- https://github.com/lcpz/awesome-copycats/issues/251
 -- }}}
 
-autorun=true
-autorunApps=
-{
-	"conky &",
-	"fcitx &",
-	--"gnome-do",
-	"compton -b",
-	"mpc listall | mpc add",
-	"goldendict",
-}
+--autorun=true
+--autorunApps=
+--{
+	--"conky &",
+	--"fcitx &",
+	----"gnome-do",
+	--"compton -b",
+	--"mpc listall | mpc add",
+	--"goldendict",
+--}
 
-if autorun then
-	for app=1 ,#autorunApps do
-		awful.util.spawn_with_shell(autorunApps[app])
-	end
-	autorun=false
-end
+--if autorun then
+	--for app=1 ,#autorunApps do
+		--awful.util.spawn_with_shell(autorunApps[app])
+	--end
+	--autorun=false
+--end

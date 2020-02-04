@@ -8,3 +8,6 @@
 [submodule "foggy"]
 	path = foggy
 	url = https://gitlab.com/k3rni/foggy
+[submodule "revelation"]
+	path = revelation
+	url = https://github.com/guotsuan/awesome-revelation.git
