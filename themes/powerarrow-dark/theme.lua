@@ -262,6 +262,10 @@ local net = lain.widget.net({
 	end
 })
 
+--Lanucher
+local mylauncher=awful.widget.button({image=theme.awesome_icon_launcher})
+mylauncher:connect_signal("button::press",function () awful.util.mymainmenu:toggle() end)
+
 -- Separators
 local spr     = wibox.widget.textbox(' ')
 local arrl_dl = separators.arrow_left(theme.bg_focus, "alpha")
@@ -270,123 +274,124 @@ local arrl_ld = separators.arrow_left("alpha", theme.bg_focus)
 function theme.at_screen_connect(s)
 	-- Quake application
 	s.quake = lain.util.quake({ 
-	app = awful.util.terminal ,
-	height=450,
-	width=1200,
-	border=0,
-	horiz="center",
-	followtag=true,
-	settings=awful.titlebar.hide,
-})
+		app = awful.util.terminal ,
+		height=450,
+		width=1200,
+		border=0,
+		horiz="center",
+		followtag=true,
+		settings=awful.titlebar.hide,
+	})
 
--- If wallpaper is a function, call it with the screen
-local wallpaper = theme.wallpaper
-if type(wallpaper) == "function" then
-	wallpaper = wallpaper(s)
-end
-gears.wallpaper.maximized(wallpaper, s, true)
+	-- If wallpaper is a function, call it with the screen
+	local wallpaper = theme.wallpaper
+	if type(wallpaper) == "function" then
+		wallpaper = wallpaper(s)
+	end
+	gears.wallpaper.maximized(wallpaper, s, true)
 
--- Tags
-awful.tag(awful.util.tagnames, s, awful.layout.layouts)
+	-- Tags
+	awful.tag(awful.util.tagnames, s, awful.layout.layouts)
 
--- Create a promptbox for each screen
-s.mypromptbox = awful.widget.prompt()
--- Create an imagebox widget which will contains an icon indicating which layout we're using.
--- We need one layoutbox per screen.
-s.mylayoutbox = awful.widget.layoutbox(s,
-{
-	border_width=1,
-	fg_focus='#ffffff',
-	shape_border_color='#ffffff',
-	shape_border_width=1,
-	align='center',
-	shape=gears.shape.powerline,
-})
-s.mylayoutbox:buttons(my_table.join(
-awful.button({}, 1, function () awful.layout.inc( 1) end),
-awful.button({}, 2, function () awful.layout.set( awful.layout.layouts[1] ) end),
-awful.button({}, 3, function () awful.layout.inc(-1) end),
-awful.button({}, 4, function () awful.layout.inc( 1) end),
-awful.button({}, 5, function () awful.layout.inc(-1) end)))
--- Create a taglist widget
-s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all,
-awful.util.taglist_buttons
-)
+	-- Create a promptbox for each screen
+	s.mypromptbox = awful.widget.prompt()
+	-- Create an imagebox widget which will contains an icon indicating which layout we're using.
+	-- We need one layoutbox per screen.
+	s.mylayoutbox = awful.widget.layoutbox(s,
+	{
+		border_width=1,
+		fg_focus='#ffffff',
+		shape_border_color='#ffffff',
+		shape_border_width=1,
+		align='center',
+		shape=gears.shape.powerline,
+	})
+	s.mylayoutbox:buttons(my_table.join(
+	awful.button({}, 1, function () awful.layout.inc( 1) end),
+	awful.button({}, 2, function () awful.layout.set( awful.layout.layouts[1] ) end),
+	awful.button({}, 3, function () awful.layout.inc(-1) end),
+	awful.button({}, 4, function () awful.layout.inc( 1) end),
+	awful.button({}, 5, function () awful.layout.inc(-1) end)))
+	-- Create a taglist widget
+	s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all,
+	awful.util.taglist_buttons
+	)
 
--- Create a tasklist widget
-s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags,
-awful.util.tasklist_buttons,
-{
-	border_width=1,
-	fg_focus='#ffffff',
-	shape_border_color='#ffffff',
-	shape_border_width=1,
-	align='center',
-	shape=gears.shape.rounded_rect,
-	spacing=5,
-})
+	-- Create a tasklist widget
+	s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags,
+	awful.util.tasklist_buttons,
+	{
+		border_width=1,
+		fg_focus='#ffffff',
+		shape_border_color='#ffffff',
+		shape_border_width=1,
+		align='center',
+		shape=gears.shape.rounded_rect,
+		spacing=5,
+	})
 
--- Create the wibox
-s.mywibox = awful.wibar({ 
-	position = "top", 
-	screen = s, height = 25,
-	bg = theme.bg_normal,
-	opacity=0.75, fg = theme.fg_normal
-})
+	-- Create the wibox
+	s.mywibox = awful.wibar({ 
+		position = "top", 
+		screen = s, height = 25,
+		bg = theme.bg_normal,
+		opacity=0.75, fg = theme.fg_normal
+	})
 
--- Add widgets to the wibox
-s.mywibox:setup {
-	layout = wibox.layout.align.horizontal,
-	{ -- Left widgets
+	-- Add widgets to the wibox
+	s.mywibox:setup {
+		layout = wibox.layout.align.horizontal,
+		{ -- Left widgets
+		layout = wibox.layout.fixed.horizontal,
+		--spr,
+		s.mytaglist,
+		spr,
+		mylauncher,
+		spr,
+		s.mypromptbox,
+		spr,
+	},
+	s.mytasklist, -- Middle widget
+	{ -- Right widgets
+	spr,
+	spr,
 	layout = wibox.layout.fixed.horizontal,
-	--spr,
-	s.mytaglist,
+	wibox.widget.systray(),
 	spr,
+	--arrl_ld,
+	--wibox.container.background(mpdicon, theme.bg_focus),
+	--wibox.container.background(theme.mpd.widget, theme.bg_focus),
+	--arrl_dl,
+	volicon,
+	theme.volume.widget,
+	--arrl_ld,
+	--wibox.container.background(mailicon, theme.bg_focus),
+	--wibox.container.background(theme.mail.widget, theme.bg_focus),
+	--arrl_dl,
+	--memicon,
+	--mem.widget,
+	--arrl_ld,
+	--wibox.container.background(cpuicon, theme.bg_focus),
+	--wibox.container.background(cpu.widget, theme.bg_focus),
+	--arrl_dl,
+	--tempicon,
+	--temp.widget,
+	--arrl_ld,
+	--wibox.container.background(fsicon, theme.bg_focus),
+	--wibox.container.background(theme.fs.widget, theme.bg_focus),
+	--arrl_dl,
+	baticon,
+	bat.widget,
+	--arrl_ld,
+	--wibox.container.background(neticon, theme.bg_focus),
+	--wibox.container.background(net.widget, theme.bg_focus),
+	--arrl_dl,
+	clock,
 	spr,
-	s.mypromptbox,
-	spr,
+	--arrl_ld,
+	wibox.container.background(s.mylayoutbox, theme.bg_focus),
 },
-s.mytasklist, -- Middle widget
-{ -- Right widgets
-spr,
-spr,
-layout = wibox.layout.fixed.horizontal,
-wibox.widget.systray(),
-spr,
---arrl_ld,
---wibox.container.background(mpdicon, theme.bg_focus),
---wibox.container.background(theme.mpd.widget, theme.bg_focus),
---arrl_dl,
-volicon,
-theme.volume.widget,
---arrl_ld,
---wibox.container.background(mailicon, theme.bg_focus),
---wibox.container.background(theme.mail.widget, theme.bg_focus),
---arrl_dl,
---memicon,
---mem.widget,
---arrl_ld,
---wibox.container.background(cpuicon, theme.bg_focus),
---wibox.container.background(cpu.widget, theme.bg_focus),
---arrl_dl,
---tempicon,
---temp.widget,
---arrl_ld,
---wibox.container.background(fsicon, theme.bg_focus),
---wibox.container.background(theme.fs.widget, theme.bg_focus),
---arrl_dl,
-baticon,
-bat.widget,
---arrl_ld,
---wibox.container.background(neticon, theme.bg_focus),
---wibox.container.background(net.widget, theme.bg_focus),
---arrl_dl,
-clock,
-spr,
---arrl_ld,
-wibox.container.background(s.mylayoutbox, theme.bg_focus),
-},
-    }
+	}
 end
 
 return theme

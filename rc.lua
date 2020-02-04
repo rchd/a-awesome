@@ -1,8 +1,6 @@
 --[[
-
 Awesome WM configuration template
 github.com/lcpz
-
 --]]
 
 -- {{{ Required libraries
@@ -21,6 +19,8 @@ local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 require("awful.hotkeys_popup.keys")
 local my_table      = awful.util.table or gears.table -- 4.{0,1} compatibility
+
+local cyclefocus=require('cyclefocus')
 local foggy=require('foggy')
 
 --local poppin=require('poppin')
@@ -196,13 +196,10 @@ awful.util.mymainmenu = freedesktop.menu.build({
 		-- other triads can be put here
 	}
 })
---awful.util.mymainmenu=awful.menu({
---items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
---{ "open terminal", terminal }}
---})
+
 
 -- hide menu when mouse leaves it
---awful.util.mymainmenu.wibox:connect_signal("mouse::leave", function() awful.util.mymainmenu:hide() end)
+awful.util.mymainmenu.wibox:connect_signal("mouse::leave", function() awful.util.mymainmenu:hide() end)
 
 --menubar.utils.terminal = terminal -- Set the Menubar terminal for applications that require it
 -- }}}
@@ -713,7 +710,6 @@ client.connect_signal("manage", function (c)
 		awful.titlebar.hide(c)
 	end
 
-
 end)
 --Signal function to execute when current layout is floating
 tag.connect_signal("property::layout",function(t)
@@ -751,13 +747,9 @@ client.connect_signal("request::titlebars", function(c)
 
 	awful.titlebar(c, {size = 16}) : setup {
 		{ -- Left
-		--awful.titlebar.widget.iconwidget(c),
-		awful.titlebar.widget.floatingbutton (c),
-		awful.titlebar.widget.closebutton    (c),
-		awful.titlebar.widget.stickybutton   (c),
+		awful.titlebar.widget.iconwidget(c),
 		buttons = buttons,
 		layout  = wibox.layout.fixed.horizontal
-
 	},
 	{ -- Middle
 	{ -- Title
@@ -768,11 +760,11 @@ buttons = buttons,
 layout  = wibox.layout.flex.horizontal
 	},
 	{ -- Right
-	--awful.titlebar.widget.floatingbutton (c),
-	--awful.titlebar.widget.maximizedbutton(c),
-	--awful.titlebar.widget.stickybutton   (c),
-	--awful.titlebar.widget.ontopbutton    (c),
-	--awful.titlebar.widget.closebutton    (c),
+	awful.titlebar.widget.floatingbutton (c),
+	awful.titlebar.widget.maximizedbutton(c),
+	awful.titlebar.widget.stickybutton   (c),
+	awful.titlebar.widget.ontopbutton    (c),
+	awful.titlebar.widget.closebutton    (c),
 	layout = wibox.layout.fixed.horizontal()
 },
 layout = wibox.layout.align.horizontal
@@ -803,20 +795,20 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- https://github.com/lcpz/awesome-copycats/issues/251
 -- }}}
 
---autorun=true
---autorunApps=
---{
-	--"conky &",
-	--"fcitx &",
+autorun=true
+autorunApps=
+{
+	"conky &",
+	"fcitx &",
 	--"gnome-do",
-	--"compton -b",
-	--"mpc listall | mpc add",
-	--"goldendict",
---}
+	"compton -b",
+	"mpc listall | mpc add",
+	"goldendict",
+}
 
---if autorun then
-	--for app=1 ,#autorunApps do
-		--awful.util.spawn_with_shell(autorunApps[app])
-	--end
-	--autorun=false
---end
+if autorun then
+	for app=1 ,#autorunApps do
+		awful.util.spawn_with_shell(autorunApps[app])
+	end
+	autorun=false
+end
