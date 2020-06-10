@@ -15,7 +15,8 @@ local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
 local theme                                     = {}
 theme.dir                                       = os.getenv("HOME") .. "/.config/awesome/themes/powerarrow-dark"
 --theme.wallpaper                               = theme.dir .. "/wall.png"
-theme.wallpaper                                 = theme.dir .. "/background.jpg"
+--theme.wallpaper                                 = theme.dir .. "/background.jpg"
+theme.wallpaper                                 = theme.dir .. "/wall.png"
 theme.font                                      = "xos4 Terminus 9"
 theme.fg_normal                                 = "#DDDDFFAA"
 theme.fg_focus                                  = "#EA6F81AA"
@@ -276,7 +277,7 @@ function theme.at_screen_connect(s)
 	s.quake = lain.util.quake({ 
 		app = awful.util.terminal ,
 		height=450,
-		width=1200,
+		width=1800,
 		border=0,
 		horiz="center",
 		followtag=true,
@@ -326,7 +327,8 @@ function theme.at_screen_connect(s)
 		shape_border_color='#ffffff',
 		shape_border_width=1,
 		align='center',
-		shape=gears.shape.rounded_rect,
+		--shape=gears.shape.rounded_rect,
+        shape = gears.shape.partially_rounded_rect, 
 		spacing=5,
 	})
 
