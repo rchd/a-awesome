@@ -83,7 +83,7 @@ awful.spawn.with_shell(
 
 local modkey       = "Mod4"
 local altkey       = "Mod1"
-local terminal     = "alacritty"
+local terminal     = "konsole"
 local editor       = os.getenv("EDITOR") or "vim"
 local gui_editor   = "gvim"
 local browser      = "firefox"
@@ -526,7 +526,7 @@ end,
     ----'run', 'dmenu'))
     --os.execute(string.format("rofi -combi-modi window,drun -show combi -modi combi "))
 --end,
-{description = "show rofi", group = "launcher"}),
+--{description = "show rofi", group = "launcher"}),
 -- Prompt
 awful.key({ modkey }, "r", function () awful.screen.focused().mypromptbox:run() end,
 {description = "run prompt", group = "launcher"}),
@@ -812,7 +812,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 autorun=true
 autorunApps=
 {
-    "conky -c ~/.cnofig/awesome/conky.conf &",
+    "conky -c ~/.config/awesome/conky.conf ",
     "fcitx &",
     --"gnome-do",
     "compton -b",
