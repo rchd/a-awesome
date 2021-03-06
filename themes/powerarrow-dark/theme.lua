@@ -15,7 +15,7 @@ local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
 local theme                                     = {}
 theme.dir                                       = os.getenv("HOME") .. "/.config/awesome/themes/powerarrow-dark"
 theme.wallpaper                               = theme.dir .. "/wall.png"
- --  theme.wallpaper                                 = theme.dir .. "/background.jpg"
+--  theme.wallpaper                                 = theme.dir .. "/background.jpg"
 theme.font                                      = "xos4 Terminus 9"
 theme.fg_normal                                 = "#DDDDFFAA"
 theme.fg_focus                                  = "#EA6F81AA"
@@ -23,7 +23,7 @@ theme.fg_urgent                                 = "#CC9393AA"
 theme.bg_normal                                 = "#1A1A1AAA"
 theme.bg_focus                                  = "#313131AA"
 theme.bg_urgent                                 = "#1A1A1AAA"
-theme.border_width                              = 2
+theme.border_width                              = 3
 theme.border_normal                             = "#3F3F3FAA"
 theme.border_focus                              = "#7F7F7FAA"
 theme.border_marked                             = "#CC9393AA"
@@ -105,18 +105,18 @@ local clockicon = wibox.widget.imagebox(theme.widget_clock)
 local clock = awful.widget.watch(
 "date +'%a %d %b %R'", 60,
 function(widget, stdout)
-	widget:set_markup(" " .. markup.font(theme.font, stdout))
+    widget:set_markup(" " .. markup.font(theme.font, stdout))
 end
 )
 
 -- Calendar
 theme.cal = lain.widget.cal({
-	attach_to = { clock },
-	notification_preset = {
-		font = "xos4 Terminus 10",
-		fg   = theme.fg_normal,
-		bg   = theme.bg_normal
-	}
+    attach_to = { clock },
+    notification_preset = {
+        font = "xos4 Terminus 10",
+        fg   = theme.fg_normal,
+        bg   = theme.bg_normal
+    }
 })
 
 -- Mail IMAP check
@@ -146,58 +146,58 @@ local mpdicon = wibox.widget.imagebox(theme.widget_music)
 mpdicon:buttons(my_table.join(
 awful.button({ modkey }, 1, function () awful.spawn.with_shell(musicplr) end),
 awful.button({ }, 1, function ()
-	os.execute("mpc prev")
-	theme.mpd.update()
+    os.execute("mpc prev")
+    theme.mpd.update()
 end),
 awful.button({ }, 2, function ()
-	os.execute("mpc toggle")
-	theme.mpd.update()
+    os.execute("mpc toggle")
+    theme.mpd.update()
 end),
 awful.button({ }, 3, function ()
-	os.execute("mpc next")
-	theme.mpd.update()
+    os.execute("mpc next")
+    theme.mpd.update()
 end)))
 theme.mpd = lain.widget.mpd({
-	settings = function()
-		if mpd_now.state == "play" then
-			artist = " " .. mpd_now.artist .. " "
-			title  = mpd_now.title  .. " "
-			mpdicon:set_image(theme.widget_music_on)
-		elseif mpd_now.state == "pause" then
-			artist = " mpd "
-			title  = "paused "
-		else
-			artist = ""
-			title  = ""
-			mpdicon:set_image(theme.widget_music)
-		end
+    settings = function()
+        if mpd_now.state == "play" then
+            artist = " " .. mpd_now.artist .. " "
+            title  = mpd_now.title  .. " "
+            mpdicon:set_image(theme.widget_music_on)
+        elseif mpd_now.state == "pause" then
+            artist = " mpd "
+            title  = "paused "
+        else
+            artist = ""
+            title  = ""
+            mpdicon:set_image(theme.widget_music)
+        end
 
-		widget:set_markup(markup.font(theme.font, markup("#EA6F81", artist) .. title))
-	end
+        widget:set_markup(markup.font(theme.font, markup("#EA6F81", artist) .. title))
+    end
 })
 
 -- MEM
 local memicon = wibox.widget.imagebox(theme.widget_mem)
 local mem = lain.widget.mem({
-	settings = function()
-		widget:set_markup(markup.font(theme.font, " " .. mem_now.used .. "MB "))
-	end
+    settings = function()
+        widget:set_markup(markup.font(theme.font, " " .. mem_now.used .. "MB "))
+    end
 })
 
 -- CPU
 local cpuicon = wibox.widget.imagebox(theme.widget_cpu)
 local cpu = lain.widget.cpu({
-	settings = function()
-		widget:set_markup(markup.font(theme.font, " " .. cpu_now.usage .. "% "))
-	end
+    settings = function()
+        widget:set_markup(markup.font(theme.font, " " .. cpu_now.usage .. "% "))
+    end
 })
 
 -- Coretemp
 local tempicon = wibox.widget.imagebox(theme.widget_temp)
 local temp = lain.widget.temp({
-	settings = function()
-		widget:set_markup(markup.font(theme.font, " " .. coretemp_now .. "°C "))
-	end
+    settings = function()
+        widget:set_markup(markup.font(theme.font, " " .. coretemp_now .. "°C "))
+    end
 })
 
 -- / fs
@@ -214,52 +214,52 @@ end
 -- Battery
 local baticon = wibox.widget.imagebox(theme.widget_battery)
 local bat = lain.widget.bat({
-	settings = function()
-		if bat_now.status and bat_now.status ~= "N/A" then
-			if bat_now.ac_status == 1 then
-				baticon:set_image(theme.widget_ac)
-			elseif not bat_now.perc and tonumber(bat_now.perc) <= 5 then
-				baticon:set_image(theme.widget_battery_empty)
-			elseif not bat_now.perc and tonumber(bat_now.perc) <= 15 then
-				baticon:set_image(theme.widget_battery_low)
-			else
-				baticon:set_image(theme.widget_battery)
-			end
-			widget:set_markup(markup.font(theme.font, " " .. bat_now.perc .. "% "))
-		else
-			widget:set_markup(markup.font(theme.font, " AC "))
-			baticon:set_image(theme.widget_ac)
-		end
-	end
+    settings = function()
+        if bat_now.status and bat_now.status ~= "N/A" then
+            if bat_now.ac_status == 1 then
+                baticon:set_image(theme.widget_ac)
+            elseif not bat_now.perc and tonumber(bat_now.perc) <= 5 then
+                baticon:set_image(theme.widget_battery_empty)
+            elseif not bat_now.perc and tonumber(bat_now.perc) <= 15 then
+                baticon:set_image(theme.widget_battery_low)
+            else
+                baticon:set_image(theme.widget_battery)
+            end
+            widget:set_markup(markup.font(theme.font, " " .. bat_now.perc .. "% "))
+        else
+            widget:set_markup(markup.font(theme.font, " AC "))
+            baticon:set_image(theme.widget_ac)
+        end
+    end
 })
 
 -- ALSA volume
 local volicon = wibox.widget.imagebox(theme.widget_vol)
 theme.volume = lain.widget.alsa({
-	settings = function()
-		if volume_now.status == "off" then
-			volicon:set_image(theme.widget_vol_mute)
-		elseif tonumber(volume_now.level) == 0 then
-			volicon:set_image(theme.widget_vol_no)
-		elseif tonumber(volume_now.level) <= 50 then
-			volicon:set_image(theme.widget_vol_low)
-		else
-			volicon:set_image(theme.widget_vol)
-		end
+    settings = function()
+        if volume_now.status == "off" then
+            volicon:set_image(theme.widget_vol_mute)
+        elseif tonumber(volume_now.level) == 0 then
+            volicon:set_image(theme.widget_vol_no)
+        elseif tonumber(volume_now.level) <= 50 then
+            volicon:set_image(theme.widget_vol_low)
+        else
+            volicon:set_image(theme.widget_vol)
+        end
 
-		widget:set_markup(markup.font(theme.font, " " .. volume_now.level .. "% "))
-	end
+        widget:set_markup(markup.font(theme.font, " " .. volume_now.level .. "% "))
+    end
 })
 
 -- Net
 local neticon = wibox.widget.imagebox(theme.widget_net)
 local net = lain.widget.net({
-	settings = function()
-		widget:set_markup(markup.font(theme.font,
-		markup("#7AC82E", " " .. net_now.received)
-		.. " " ..
-		markup("#46A8C3", " " .. net_now.sent .. " ")))
-	end
+    settings = function()
+        widget:set_markup(markup.font(theme.font,
+        markup("#7AC82E", " " .. net_now.received)
+        .. " " ..
+        markup("#46A8C3", " " .. net_now.sent .. " ")))
+    end
 })
 
 --Lanucher
@@ -272,126 +272,126 @@ local arrl_dl = separators.arrow_left(theme.bg_focus, "alpha")
 local arrl_ld = separators.arrow_left("alpha", theme.bg_focus)
 
 function theme.at_screen_connect(s)
-	-- Quake application
-	s.quake = lain.util.quake({ 
-		app = "konsole",
-		height=450,
-		width=1800,
-		border=0,
-		horiz="center",
-		followtag=true,
-		settings=awful.titlebar.hide,
-	})
+    -- Quake application
+    s.quake = lain.util.quake({
+        app = "konsole",
+        height=450,
+        width=1800,
+        border=0,
+        horiz="center",
+        followtag=true,
+        settings=awful.titlebar.hide,
+    })
 
-	-- If wallpaper is a function, call it with the screen
-	local wallpaper = theme.wallpaper
-	if type(wallpaper) == "function" then
-		wallpaper = wallpaper(s)
-	end
-	gears.wallpaper.maximized(wallpaper, s, true)
+    -- If wallpaper is a function, call it with the screen
+    local wallpaper = theme.wallpaper
+    if type(wallpaper) == "function" then
+        wallpaper = wallpaper(s)
+    end
+    gears.wallpaper.maximized(wallpaper, s, true)
 
-	-- Tags
-	awful.tag(awful.util.tagnames, s, awful.layout.layouts)
+    -- Tags
+    awful.tag(awful.util.tagnames, s, awful.layout.layouts)
 
-	-- Create a promptbox for each screen
-	s.mypromptbox = awful.widget.prompt()
-	-- Create an imagebox widget which will contains an icon indicating which layout we're using.
-	-- We need one layoutbox per screen.
-	s.mylayoutbox = awful.widget.layoutbox(s,
-	{
-		border_width=1,
-		fg_focus='#ffffff',
-		shape_border_color='#ffffff',
-		shape_border_width=1,
-		align='center',
-		shape=gears.shape.powerline,
-	})
-	s.mylayoutbox:buttons(my_table.join(
-	awful.button({}, 1, function () awful.layout.inc( 1) end),
-	awful.button({}, 2, function () awful.layout.set( awful.layout.layouts[1] ) end),
-	awful.button({}, 3, function () awful.layout.inc(-1) end),
-	awful.button({}, 4, function () awful.layout.inc( 1) end),
-	awful.button({}, 5, function () awful.layout.inc(-1) end)))
-	-- Create a taglist widget
-	s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all,
-	awful.util.taglist_buttons
-	)
+    -- Create a promptbox for each screen
+    s.mypromptbox = awful.widget.prompt()
+    -- Create an imagebox widget which will contains an icon indicating which layout we're using.
+    -- We need one layoutbox per screen.
+    s.mylayoutbox = awful.widget.layoutbox(s,
+    {
+        border_width=1,
+        fg_focus='#ffffff',
+        shape_border_color='#ffffff',
+        shape_border_width=1,
+        align='center',
+        shape=gears.shape.powerline,
+    })
+    s.mylayoutbox:buttons(my_table.join(
+    awful.button({}, 1, function () awful.layout.inc( 1) end),
+    awful.button({}, 2, function () awful.layout.set( awful.layout.layouts[1] ) end),
+    awful.button({}, 3, function () awful.layout.inc(-1) end),
+    awful.button({}, 4, function () awful.layout.inc( 1) end),
+    awful.button({}, 5, function () awful.layout.inc(-1) end)))
+    -- Create a taglist widget
+    s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all,
+    awful.util.taglist_buttons
+    )
 
-	-- Create a tasklist widget
-	s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags,
-	awful.util.tasklist_buttons,
-	{
-		border_width=1,
-		fg_focus='#ffffff',
-		shape_border_color='#ffffff',
-		shape_border_width=1,
-		align='center',
-		shape=gears.shape.rectangle,
-		spacing=5,
-	})
+    -- Create a tasklist widget
+    s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags,
+    awful.util.tasklist_buttons,
+    {
+        border_width=1,
+        fg_focus='#ffffff',
+        shape_border_color='#ffffff',
+        shape_border_width=1,
+        align='center',
+        shape=gears.shape.rectangle,
+        spacing=5,
+    })
 
-	-- Create the wibox
-	s.mywibox = awful.wibar({ 
-		position = "top", 
-		screen = s, height = 25,
-		bg = theme.bg_normal,
-		opacity=0.75, fg = theme.fg_normal
-	})
+    -- Create the wibox
+    s.mywibox = awful.wibar({
+        position = "top",
+        screen = s, height = 25,
+        bg = theme.bg_normal,
+        opacity=0.75, fg = theme.fg_normal
+    })
 
-	-- Add widgets to the wibox
-	s.mywibox:setup {
-		layout = wibox.layout.align.horizontal,
-		{ -- Left widgets
-		layout = wibox.layout.fixed.horizontal,
-		--spr,
-		s.mytaglist,
-		spr,
-		mylauncher,
-		spr,
-		s.mypromptbox,
-		spr,
-	},
-	s.mytasklist, -- Middle widget
-	{ -- Right widgets
-	spr,
-	spr,
-	layout = wibox.layout.fixed.horizontal,
-	wibox.widget.systray(),
-	spr,
-	--arrl_ld,
-	--wibox.container.background(mpdicon, theme.bg_focus),
-	--wibox.container.background(theme.mpd.widget, theme.bg_focus),
-	--arrl_dl,
-	volicon,
-	theme.volume.widget,
-	--arrl_ld,
-	--wibox.container.background(mailicon, theme.bg_focus),
-	--wibox.container.background(theme.mail.widget, theme.bg_focus),
-	--arrl_dl,
-	--memicon,
-	--mem.widget,
-	--arrl_ld,
-	--wibox.container.background(cpuicon, theme.bg_focus),
-	--wibox.container.background(cpu.widget, theme.bg_focus),
-	--arrl_dl,
-	--tempicon,
-	--temp.widget,
-	--arrl_ld,
-	--wibox.container.background(fsicon, theme.bg_focus),
-	--wibox.container.background(theme.fs.widget, theme.bg_focus),
-	--arrl_dl,
-	baticon,
-	bat.widget,
-	--arrl_ld,
-	--wibox.container.background(neticon, theme.bg_focus),
-	--wibox.container.background(net.widget, theme.bg_focus),
-	--arrl_dl,
-	clock,
-	spr,
-	--arrl_ld,
-	wibox.container.background(s.mylayoutbox, theme.bg_focus),
+    -- Add widgets to the wibox
+    s.mywibox:setup {
+        layout = wibox.layout.align.horizontal,
+        { -- Left widgets
+        layout = wibox.layout.fixed.horizontal,
+        --spr,
+        s.mytaglist,
+        spr,
+        mylauncher,
+        spr,
+        s.mypromptbox,
+        spr,
+    },
+    s.mytasklist, -- Middle widget
+    { -- Right widgets
+    spr,
+    spr,
+    layout = wibox.layout.fixed.horizontal,
+    wibox.widget.systray(),
+    spr,
+    --arrl_ld,
+    --wibox.container.background(mpdicon, theme.bg_focus),
+    --wibox.container.background(theme.mpd.widget, theme.bg_focus),
+    --arrl_dl,
+    volicon,
+    theme.volume.widget,
+    --arrl_ld,
+    --wibox.container.background(mailicon, theme.bg_focus),
+    --wibox.container.background(theme.mail.widget, theme.bg_focus),
+    --arrl_dl,
+    --memicon,
+    --mem.widget,
+    --arrl_ld,
+    --wibox.container.background(cpuicon, theme.bg_focus),
+    --wibox.container.background(cpu.widget, theme.bg_focus),
+    --arrl_dl,
+    --tempicon,
+    --temp.widget,
+    --arrl_ld,
+    --wibox.container.background(fsicon, theme.bg_focus),
+    --wibox.container.background(theme.fs.widget, theme.bg_focus),
+    --arrl_dl,
+    baticon,
+    bat.widget,
+    --arrl_ld,
+    --wibox.container.background(neticon, theme.bg_focus),
+    --wibox.container.background(net.widget, theme.bg_focus),
+    --arrl_dl,
+    clock,
+    spr,
+    --arrl_ld,
+    wibox.container.background(s.mylayoutbox, theme.bg_focus),
 },
-	}
+    }
 end
 
 return theme

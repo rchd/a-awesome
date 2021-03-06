@@ -1,8 +1,8 @@
 --[[
 Awesome WM configuration template
 github.com/lcpz
---]]
 
+--]]
 -- {{{ Required libraries
 local awesome, client, mouse, screen, tag = awesome, client, mouse, screen, tag
 local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, table, tostring, tonumber, type
@@ -205,7 +205,7 @@ awful.util.mymainmenu = freedesktop.menu.build({
 
 
 -- hide menu when mouse leaves it
-awful.util.mymainmenu.wibox:connect_signal("mouse::leave", function() awful.util.mymainmenu:hide() end)
+--awful.util.mymainmenu.wibox:connect_signal("mouse::leave", function() awful.util.mymainmenu:hide() end)
 
 --menubar.utils.terminal = terminal -- Set the Menubar terminal for applications that require it
 -- }}}
@@ -413,9 +413,9 @@ awful.key({ altkey, }, "h", function () if beautiful.fs then beautiful.fs.show(7
 --{description = "show weather", group = "widgets"}),
 
 -- Brightness
-awful.key({ }, "XF86MonBrightnessUp", function () os.execute("xbacklight -inc 10") end,
+awful.key({ }, "XF86MonBrightnessUp", function () os.execute("light -A 10") end,
 {description = "+10%", group = "hotkeys"}),
-awful.key({ }, "XF86MonBrightnessDown", function () os.execute("xbacklight -dec 10") end,
+awful.key({ }, "XF86MonBrightnessDown", function () os.execute("light -U 10") end,
 {description = "-10%", group = "hotkeys"}),
 
 -- ALSA volume control
@@ -521,11 +521,11 @@ end,
 -- check https://github.com/DaveDavenport/rofi for more details
 --[[ rofi
 --]]
-awful.key({ "Shift"}, "space", function ()
-    --os.execute(string.format("rofi -show %s -theme %s",
-    --'run', 'dmenu'))
-    os.execute(string.format("rofi -combi-modi window,drun -show combi -modi combi "))
-end,
+--awful.key({ "Shift"}, "space", function ()
+    ----os.execute(string.format("rofi -show %s -theme %s",
+    ----'run', 'dmenu'))
+    --os.execute(string.format("rofi -combi-modi window,drun -show combi -modi combi "))
+--end,
 {description = "show rofi", group = "launcher"}),
 -- Prompt
 awful.key({ modkey }, "r", function () awful.screen.focused().mypromptbox:run() end,
@@ -565,7 +565,7 @@ awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop   
 {description = "toggle keep on top", group = "client"}),
 awful.key({ modkey,  "Shift"  },"t",
 function (c)
-    awful.titlebar.toggle(c)
+    awful.titlebar.toggle(c, 'left' )
 end,
 {description="add titlebar to window",grounp="client"}),
 awful.key({ modkey,           }, "n",
@@ -712,9 +712,9 @@ client.connect_signal("manage", function (c)
 
     --The titlebar will hide when the new program run
     if c.floating or c.first_tag.layout.name == "floating" then
-        awful.titlebar.show(c)
+        awful.titlebar.show(c,'left')
     else
-        awful.titlebar.hide(c)
+        awful.titlebar.hide(c,'left')
     end
 
 end)
@@ -723,9 +723,9 @@ tag.connect_signal("property::layout",function(t)
     local clients=t:clients()
     for k,c in pairs(clients) do
         if c.floating or c.first_tag.layout.name == "floating" then
-            awful.titlebar.show(c)
+            awful.titlebar.show(c,'left')
         else
-            awful.titlebar.hide(c)
+            awful.titlebar.hide(c,'left')
         end
     end
 end)
@@ -752,30 +752,37 @@ client.connect_signal("request::titlebars", function(c)
     end)
     )
 
-    awful.titlebar(c, {size = 16}) : setup {
+    awful.titlebar(c, {position='left',size = 16}) : setup {
         { -- Left
         awful.titlebar.widget.iconwidget(c),
-        buttons = buttons,
-        layout  = wibox.layout.fixed.horizontal
+        awful.titlebar.widget.floatingbutton (c),
+        awful.titlebar.widget.maximizedbutton(c),
+        awful.titlebar.widget.stickybutton   (c),
+        awful.titlebar.widget.ontopbutton    (c),
+        awful.titlebar.widget.closebutton    (c),
+        --buttons = buttons,
+        layout  = wibox.layout.fixed.vertical
     },
-    { -- Middle
-    { -- Title
-    align  = "center",
-    widget = awful.titlebar.widget.titlewidget(c)
-},
-buttons = buttons,
-layout  = wibox.layout.flex.horizontal
-    },
+    --{ -- Middle
+    --{ -- Title
+    --align  = "center",
+    --widget = awful.titlebar.widget.titlewidget(c)
+    --},
+    --buttons = buttons,
+    --layout  = wibox.layout.flex.horizontal
+    --awful.titlebar.widget.floatingbutton (c),
+    --awful.titlebar.widget.maximizedbutton(c),
+    --awful.titlebar.widget.stickybutton   (c),
+    --awful.titlebar.widget.ontopbutton    (c),
+    --awful.titlebar.widget.closebutton    (c),
+    --layout  = wibox.layout.flex.vertical
+    --},
     { -- Right
-    awful.titlebar.widget.floatingbutton (c),
-    awful.titlebar.widget.maximizedbutton(c),
-    awful.titlebar.widget.stickybutton   (c),
-    awful.titlebar.widget.ontopbutton    (c),
-    awful.titlebar.widget.closebutton    (c),
-    layout = wibox.layout.fixed.horizontal()
+    buttons = buttons,
+    layout = wibox.layout.fixed.vertical(),
 },
-layout = wibox.layout.align.horizontal
-    }
+layout = wibox.layout.align.vertical
+}
 end)
 
 -- Enable sloppy focus, so that focus follows mouse.
@@ -805,11 +812,11 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 autorun=true
 autorunApps=
 {
-    "conky &",
+    "conky -c ~/.cnofig/awesome/conky.conf &",
     "fcitx &",
     --"gnome-do",
     "compton -b",
-    "mpc listall | mpc add",
+    --"mpc listall | mpc add",
     "goldendict",
 }
 
@@ -819,3 +826,7 @@ if autorun then
     end
     autorun=false
 end
+--require('smart_borders'){ show_button_tooltips = true }
+
+
+
