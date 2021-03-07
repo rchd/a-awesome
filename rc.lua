@@ -812,19 +812,17 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 autorun=true
 autorunApps=
 {
-    "conky -c ~/.config/awesome/conky.conf ",
+    "conky -c ~/.config/awesome/conky.conf & ",
     "fcitx &",
-    --"gnome-do",
-    "compton -b",
-    --"mpc listall | mpc add",
-    "goldendict",
+    "compton -b --config ~/.config/awesome/compton.conf &",
+    "goldendict &",
 }
 
 if autorun then
-    for app=1 ,#autorunApps do
-        awful.util.spawn_with_shell(autorunApps[app])
-    end
-    autorun=false
+	for app=1 ,#autorunApps do
+		awful.util.spawn_with_shell(autorunApps[app])
+	end
+	autorun=false
 end
 --require('smart_borders'){ show_button_tooltips = true }
 
