@@ -335,7 +335,7 @@ function theme.at_screen_connect(s)
         position = "top",
         screen = s, height = 25,
         bg = theme.bg_normal,
-        opacity=0.75, fg = theme.fg_normal
+        opacity=0.75, fg = theme.fg_normal,
     })
 
     -- Add widgets to the wibox

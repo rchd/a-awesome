@@ -819,12 +819,9 @@ autorunApps=
 }
 
 if autorun then
-	for app=1 ,#autorunApps do
-		awful.util.spawn_with_shell(autorunApps[app])
-	end
-	autorun=false
+    for app=1 ,#autorunApps do
+        awful.util.spawn_with_shell(autorunApps[app])
+    end
+    autorun=false
 end
 --require('smart_borders'){ show_button_tooltips = true }
-
-
-
